@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Planet} from '../models/planet.model';
 import {HttpClient} from '@angular/common/http';
 import {SortPipe} from '../pipes/sort.pipe';
+import {Router} from '@angular/router';
+import {PlanetService} from '../services/planet.service';
 
 @Component({
   selector: 'app-planet-list',
@@ -9,14 +11,11 @@ import {SortPipe} from '../pipes/sort.pipe';
   styleUrls: ['./planet-list.component.css']
 })
 export class PlanetListComponent implements OnInit {
-  localUrl = 'https://swapi.co/api/planets/';
-
   allPlanets: Planet[] = [];
   planets: Planet[] = [];
   currentPage = 1;
   countPlanets;
   searchValue = '';
-  selectedPlanet: Planet;
 
   // tslint:disable-next-line:variable-name
   private _pageSize: number;
@@ -32,8 +31,10 @@ export class PlanetListComponent implements OnInit {
   }
 
   constructor(
+    protected planetService: PlanetService,
     private httpClient: HttpClient,
     private sortPipe: SortPipe,
+    private router: Router
   ) {
     this._pageSize = 10;
   }
@@ -43,25 +44,15 @@ export class PlanetListComponent implements OnInit {
   }
 
   private loadAllFromServer() {
-    this.httpClient
-      .get<{ results: Planet[], count: number }>(this.localUrl)
-      .subscribe(data => {
-        this.countPlanets = data.count;
-        for (let i = 1; i < this.countPlanets / this._pageSize + 1; i++) {
-          this.httpClient
-            .get<{ results: Planet[], count: number }>(this.localUrl + '?page=' + i)
-            .subscribe(subData => {
-              this.allPlanets.push(...subData.results);
-              if (this.allPlanets.length === this.countPlanets) {
-                this.preparePlanets();
-                this.getPlanets();
-              }
-            });
-        }
+    this.planetService.loadAll()
+      .subscribe(res => {
+        this.allPlanets = res;
+        this.sortPlanets();
+        this.getPlanets();
       });
   }
 
-  private preparePlanets() {
+  private sortPlanets() {
     this.allPlanets = this.sortPipe.transform(this.allPlanets, 'name');
   }
 
@@ -73,10 +64,12 @@ export class PlanetListComponent implements OnInit {
     if (this.searchValue) {
       this.planets = this.allPlanets.filter(value => value.name.toLowerCase().includes(this.searchValue.toLowerCase()));
       this.countPlanets = this.planets.length;
-      this.planets = this.planets.slice((this.currentPage - 1) * +this._pageSize, ((this.currentPage - 1) * +this._pageSize) + +this._pageSize);
+      this.planets = this.planets
+        .slice((this.currentPage - 1) * +this._pageSize, ((this.currentPage - 1) * +this._pageSize) + +this._pageSize);
     } else {
       this.countPlanets = this.allPlanets.length;
-      this.planets = this.allPlanets.slice((this.currentPage - 1) * +this._pageSize, ((this.currentPage - 1) * +this._pageSize) + +this._pageSize);
+      this.planets = this.allPlanets
+        .slice((this.currentPage - 1) * +this._pageSize, ((this.currentPage - 1) * +this._pageSize) + +this._pageSize);
     }
   }
 
@@ -91,6 +84,7 @@ export class PlanetListComponent implements OnInit {
   }
 
   onClickDetails(planet: Planet) {
-    this.selectedPlanet = planet;
+    const id = +planet.url.replace('https://swapi.co/api/planets/', '').replace('/', '');
+    this.router.navigate(['planets', id]);
   }
 }

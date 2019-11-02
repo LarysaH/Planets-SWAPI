@@ -14,10 +14,7 @@
 
 <div *ngFor="let planet of planets; let i = index">
   {{i + 1 + ((currentPage - 1) * +pageSize)}}. {{planet.name}}
-  <button
-    (click)="onClickDetails(planet)"
-
-  >
+  <button (click)="onClickDetails(planet)">
     Details
   </button>
 </div>
@@ -39,5 +36,3 @@
   <option value="25">25</option>
   <option value="100">100</option>
 </select>
-<app-planet-details *ngIf="selectedPlanet" [planet]="selectedPlanet"></app-planet-details>
-<!--<pre>{{this.planets | json}}</pre>-->

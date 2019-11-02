@@ -1,3 +1,6 @@
-<p>{{planet.name}}</p>
-<p>{{planet.climate}}</p>
+<button (click)="onClickBack()">back</button>
+<div *ngIf="planet">
+  <p>{{planet.name}}</p>
+  <p>{{planet.climate}}</p>
+</div>
 <!--<pre>{{planet | json}}</pre>-->

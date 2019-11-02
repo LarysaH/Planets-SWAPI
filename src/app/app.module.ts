@@ -10,6 +10,7 @@ import { PlanetDetailsComponent } from './planet-details/planet-details.componen
 import { HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { SortPipe } from './pipes/sort.pipe';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SortPipe } from './pipes/sort.pipe';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [
     SortPipe
