@@ -1,0 +1,43 @@
+<form>
+  <input type="text" name="search" [(ngModel)]="searchValue">
+  <button type="submit" (click)="getPlanets()">search</button>
+  <button
+    type="button"
+    (click)="searchValue = '';getPlanets()"
+    [disabled]="searchValue === ''"
+  >
+    clear
+  </button>
+</form>
+
+<h2>List of planets</h2>
+
+<div *ngFor="let planet of planets; let i = index">
+  {{i + 1 + ((currentPage - 1) * +pageSize)}}. {{planet.name}}
+  <button
+    (click)="onClickDetails(planet)"
+
+  >
+    Details
+  </button>
+</div>
+<button
+  (click)="onClickPreviousPage()"
+  [disabled]="currentPage === 1">
+  Previous
+</button>
+<button
+  (click)="onClickNextPage()"
+  [disabled]="currentPage * pageSize >= countPlanets"
+>
+  Next
+</button>
+<label>Page size: </label>
+<select name="pageSize" [(ngModel)]="pageSize">
+  <option value="5">5</option>
+  <option value="10">10</option>
+  <option value="25">25</option>
+  <option value="100">100</option>
+</select>
+<app-planet-details *ngIf="selectedPlanet" [planet]="selectedPlanet"></app-planet-details>
+<!--<pre>{{this.planets | json}}</pre>-->
