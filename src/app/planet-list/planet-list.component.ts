@@ -15,11 +15,22 @@ export class PlanetListComponent implements OnInit {
   planets: Planet[] = [];
   currentPage = 1;
   countPlanets;
-  searchValue = '';
 
   // tslint:disable-next-line:variable-name
   private _pageSize: number;
+  // tslint:disable-next-line:variable-name
+  private _searchValue = '';
   isLoading = false;
+
+  get searchValue() {
+    return this._searchValue;
+  }
+
+  set searchValue(value) {
+    this.currentPage = 1;
+    this._searchValue = value;
+    this.getPlanets();
+  }
 
   get pageSize() {
     return this._pageSize;
@@ -89,5 +100,16 @@ export class PlanetListComponent implements OnInit {
   onClickDetails(planet: Planet) {
     const id = +planet.url.replace('https://swapi.co/api/planets/', '').replace('/', '');
     this.router.navigate(['planets', id]);
+  }
+
+  onClickSearch() {
+    this.currentPage = 1;
+    this.getPlanets();
+  }
+
+  onClickSearchClear() {
+    this.searchValue = '';
+    this.currentPage = 1;
+    this.getPlanets();
   }
 }

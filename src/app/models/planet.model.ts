@@ -2,7 +2,7 @@ export class Planet {
   public name?: string;
   public climate?: string;
   public created: string;
-  public diameter: string;
+  public diameter: number;
   public edited: string;
   public films: string[];
   public gravity: string;

@@ -7,17 +7,26 @@
   <span class="sr-only">Loading...</span>
 </div>
 <div *ngIf="planet" class="mt-3">
-  <p>Name: {{planet.name}}</p>
-  <p>Climate: {{planet.climate}}</p>
-  <p>Created: {{planet.created | date:'medium' }}</p>
-  <p>Diameter: {{planet.diameter}}</p>
-  <p>Edited: {{planet.edited |date:'medium' }}</p>
-  <p>Films: {{planet.films}}</p>
-  <p>Gravity: {{planet.gravity}}</p>
-  <p>Residents: {{planet.residents}}</p>
-  <p>Terrain: {{planet.terrain}}</p>
-  <p>Orbital period: {{planet.orbital_period}}</p>
-  <p>Population: {{planet.population}}</p>
-  <p>Rotation period: {{planet.rotation_period}}</p>
-  <p>Surface water: {{planet.surface_water}}</p>
+  <h2><b>Name:</b> {{planet.name}}</h2>
+  <p><b>Climate:</b> {{planet.climate}}</p>
+  <p><b>Created:</b> {{planet.created | date:'medium' }}</p>
+  <p><b>Diameter:</b> {{planet.diameter}}</p>
+  <p><b>Edited:</b> {{planet.edited |date:'medium' }}</p>
+  <p><b>Films:</b>
+    <a class="badge badge-info mx-1" *ngFor="let filmUrl of planet.films" [href]="filmUrl" target="_blank">
+      {{filmUrl}}
+    </a>
+  </p>
+  <p><b>Gravity:</b> {{planet.gravity}}</p>
+  <p>
+    <b>Residents:</b>
+    <a class="badge badge-info mx-1" *ngFor="let residentUrl of planet.residents" [href]="residentUrl" target="_blank">
+      {{residentUrl}}
+    </a>
+  </p>
+  <p><b>Terrain:</b> {{planet.terrain}}</p>
+  <p><b>Orbital period:</b> {{planet.orbital_period}}</p>
+  <p><b>Population:</b> {{planet.population}}</p>
+  <p><b>Rotation period:</b> {{planet.rotation_period}}</p>
+  <p><b>Surface water:</b> {{planet.surface_water}}</p>
 </div>
