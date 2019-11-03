@@ -11,6 +11,8 @@ import {ActivatedRoute} from '@angular/router';
 export class PlanetDetailsComponent implements OnInit {
 
   planet: Planet;
+  isLoading = false;
+
 
   constructor(
     protected planetService: PlanetService,
@@ -22,11 +24,12 @@ export class PlanetDetailsComponent implements OnInit {
   }
 
   private getPlanet() {
+    this.isLoading = true;
     const id = +this.route.snapshot.paramMap.get('id');
-    console.log(id)
     this.planetService.getPlanetDetails(id).subscribe(
       res => {
         this.planet = res;
+        this.isLoading = false;
       }
     );
   }

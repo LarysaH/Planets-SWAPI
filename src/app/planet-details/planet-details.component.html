@@ -1,6 +1,23 @@
-<button (click)="onClickBack()">back</button>
-<div *ngIf="planet">
-  <p>{{planet.name}}</p>
-  <p>{{planet.climate}}</p>
+<button (click)="onClickBack()" class="btn btn-outline-warning ">
+  <i class="material-icons px-1">
+    keyboard_arrow_left
+  </i>
+</button>
+<div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
 </div>
-<!--<pre>{{planet | json}}</pre>-->
+<div *ngIf="planet" class="mt-3">
+  <p>Name: {{planet.name}}</p>
+  <p>Climate: {{planet.climate}}</p>
+  <p>Created: {{planet.created | date:'medium' }}</p>
+  <p>Diameter: {{planet.diameter}}</p>
+  <p>Edited: {{planet.edited |date:'medium' }}</p>
+  <p>Films: {{planet.films}}</p>
+  <p>Gravity: {{planet.gravity}}</p>
+  <p>Residents: {{planet.residents}}</p>
+  <p>Terrain: {{planet.terrain}}</p>
+  <p>Orbital period: {{planet.orbital_period}}</p>
+  <p>Population: {{planet.population}}</p>
+  <p>Rotation period: {{planet.rotation_period}}</p>
+  <p>Surface water: {{planet.surface_water}}</p>
+</div>

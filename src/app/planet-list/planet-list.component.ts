@@ -19,6 +19,7 @@ export class PlanetListComponent implements OnInit {
 
   // tslint:disable-next-line:variable-name
   private _pageSize: number;
+  isLoading = false;
 
   get pageSize() {
     return this._pageSize;
@@ -44,11 +45,13 @@ export class PlanetListComponent implements OnInit {
   }
 
   private loadAllFromServer() {
+    this.isLoading = true;
     this.planetService.loadAll()
       .subscribe(res => {
         this.allPlanets = res;
         this.sortPlanets();
         this.getPlanets();
+        this.isLoading = false;
       });
   }
 
